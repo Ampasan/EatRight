@@ -1,18 +1,25 @@
-import { Stack } from "expo-router";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Tabs } from "expo-router";
 import "../global.css";
 
 export default function RootLayout() {
-  return <SafeAreaProvider>
-      <SafeAreaView edges={["bottom"]} className={`flex-1 dark:bg-gray-900 bg-white`}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="goalselection" />
-          <Stack.Screen name="profileinfo" />
-          <Stack.Screen name="allergyoption" />
-          <Stack.Screen name="signin" />
-          <Stack.Screen name="signup" />
-        </Stack>
-    </SafeAreaView>
-  </SafeAreaProvider>;
+  return (
+    <Tabs screenOptions={() => ({tabBarStyle: { display: 'none' }})}>
+      <Tabs.Screen
+        name="(auth)"
+        options={{
+          title: "Home",
+          headerShown: false,
+          animation: 'fade',
+        }}
+      />
+      <Tabs.Screen 
+        name="(tabs)"
+        options={{
+          title: "Another Page",
+          headerShown: false, 
+          animation: 'fade', 
+        }}
+      />
+    </Tabs>
+  );
 }

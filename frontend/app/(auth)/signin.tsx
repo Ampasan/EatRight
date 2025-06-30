@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import TextInput from '../components/TextInput';
-import Button from '../components/Button';
-import Card from '../components/Card';
+import TextInput from '../../components/TextInput';
+import Button from '../../components/Button';
+import Card from '../../components/Card';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -39,7 +39,7 @@ const Signin = () => {
             onChangeText={setPassword}
           />
 
-          <View className="flex-row justify-start mt-4">
+          <View className="flex-row justify-start mt-4 mb-2">
             <Text className="dark:text-slate-300 text-slate-500 font-semibold">Lupa Password?</Text>
             <TouchableOpacity>
                 <Text className="text-lime-500 font-bold"> Click Here!</Text>
@@ -47,7 +47,7 @@ const Signin = () => {
           </View>
 
           <Button
-              onPress={() => {}}
+              onPress={() => router.replace('/(tabs)/home')}
           >
             Masuk
           </Button>
@@ -59,17 +59,17 @@ const Signin = () => {
 
           <TouchableOpacity className="flex flex-row justify-center">
             <Image
-              source={require('../assets/images/social/google.png')}
+              source={require('../../assets/images/social/google.png')}
               className='w-10 h-10 mx-2'
               resizeMode="cover"
             />
             <Image
-              source={require('../assets/images/social/twitter.png')}
+              source={require('../../assets/images/social/twitter.png')}
               className='w-9 h-9 mx-2'
               resizeMode="cover"
             />
             <Image
-              source={require('../assets/images/social/facebook.png')}
+              source={require('../../assets/images/social/facebook.png')}
               className='w-10 h-10 mx-2'
               resizeMode="cover"
             />

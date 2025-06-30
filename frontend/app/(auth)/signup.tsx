@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import TextInput from '../components/TextInput';
-import Button from '../components/Button';
-import Card from '../components/Card';
-import CheckBox from '../components/CheckBox';
+import TextInput from '../../components/TextInput';
+import Button from '../../components/Button';
+import Card from '../../components/Card';
+import CheckBox from '../../components/CheckBox';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -57,7 +57,7 @@ const Signup = () => {
           />
 
           <Button
-            onPress={() => {}}
+            onPress={() => router.replace('/(tabs)/home')}
           >
             Masuk
           </Button>
@@ -76,17 +76,17 @@ const Signup = () => {
 
           <TouchableOpacity className="flex flex-row justify-center">
             <Image
-              source={require('../assets/images/social/google.png')}
+              source={require('../../assets/images/social/google.png')}
               className='w-10 h-10 mx-2'
               resizeMode="cover"
             />
             <Image
-              source={require('../assets/images/social/twitter.png')}
+              source={require('../../assets/images/social/twitter.png')}
               className='w-9 h-9 mx-2'
               resizeMode="cover"
             />
             <Image
-              source={require('../assets/images/social/facebook.png')}
+              source={require('../../assets/images/social/facebook.png')}
               className='w-10 h-10 mx-2'
               resizeMode="cover"
             />
