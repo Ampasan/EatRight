@@ -10,9 +10,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "clarifai/clarifai-php-grpc": "^11.5",
+        "cloudinary/cloudinary_php": "^3.1",
+        "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "mongodb/laravel-mongodb": "^5.4"
+        "midtrans/midtrans-php": "^2.6",
+        "mongodb/laravel-mongodb": "^5.4",
+        "openai-php/laravel": "^0.14.0",
+        "tymon/jwt-auth": "^2.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
