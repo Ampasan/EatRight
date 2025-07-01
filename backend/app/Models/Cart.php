@@ -2,9 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 
 class Cart extends Model
 {
-    //
+    protected $connection = 'mongodb';
+    protected $collection = 'carts';
+
+    protected $fillable = [
+        'user_id', 'items', 'created_at', 'updated_at'
+    ];
+
+    protected $casts = [
+        'items' => 'array',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }
