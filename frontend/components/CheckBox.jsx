@@ -5,7 +5,7 @@ const CheckBox = ({ label, checked, onChange }) => {
     return (
         <TouchableOpacity
             onPress={() => onChange(!checked)}
-            className={`flex-row items-center mt-3`}
+            className={`flex-row items-center mt-5 mb-3`}
         >
             <Checkbox 
                 style={{ borderColor: '#84cc16', borderWidth: 2, borderRadius: 9999 }}

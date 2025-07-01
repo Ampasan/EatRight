@@ -11,6 +11,7 @@ export default function AuthLayout() {
           <Stack.Screen name="allergyoption" />
           <Stack.Screen name="signin" />
           <Stack.Screen name="signup" />
+          <Stack.Screen name="otp" />
         </Stack>
     </SafeAreaView>
   </SafeAreaProvider>;
