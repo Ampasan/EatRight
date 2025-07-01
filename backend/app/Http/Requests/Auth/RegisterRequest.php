@@ -6,9 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -25,7 +22,6 @@ class RegisterRequest extends FormRequest
             'user_name' => [
                 'required',
                 'string',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z]).+$/', // harus ada huruf kecil dan kapital
             ],
             'user_email' => [
                 'required',
@@ -45,7 +41,6 @@ class RegisterRequest extends FormRequest
     {
         return [
             'user_name.required' => 'Username wajib diisi.',
-            'user_name.regex' => 'Username harus mengandung huruf kecil dan huruf kapital.',
             'user_email.required' => 'Email wajib diisi.',
             'user_email.email' => 'Format email tidak valid.',
             'user_password.required' => 'Password wajib diisi.',
