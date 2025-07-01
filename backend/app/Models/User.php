@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
@@ -13,8 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 class User extends Model implements AuthenticatableContract, JWTSubject
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, Authenticatable, SoftDeletes;
+    use Notifiable, SoftDeletes;
 
     protected $connection = 'mongodb';
     protected $collection = 'users';
@@ -56,6 +52,15 @@ class User extends Model implements AuthenticatableContract, JWTSubject
         ];
     }
 
+    // JWT implementation
     public function getJWTIdentifier() { return $this->getKey(); }
     public function getJWTCustomClaims() { return []; }
+
+    // AuthenticatableContract implementation
+    public function getAuthIdentifierName() { return '_id'; }
+    public function getAuthIdentifier() { return $this->getKey(); }
+    public function getAuthPassword() { return $this->user_password; }
+    public function getRememberToken() { return $this->remember_token ?? null; }
+    public function setRememberToken($value) { $this->remember_token = $value; }
+    public function getRememberTokenName() { return 'remember_token'; }
 }
