@@ -4,46 +4,31 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Payment;
+use App\Http\Requests\PaymentRequest;
 
 class PaymentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = auth('api')->user();
+        $payments = Payment::where('user_id', $user->_id)->get();
+        return response()->json(['success' => true, 'payments' => $payments]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(PaymentRequest $request)
     {
-        //
+        $user = auth('api')->user();
+        $data = $request->validated();
+        $data['user_id'] = $user->_id;
+        $payment = Payment::create($data);
+        return response()->json(['success' => true, 'payment' => $payment], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $user = auth('api')->user();
+        $payment = Payment::where('_id', $id)->where('user_id', $user->_id)->firstOrFail();
+        return response()->json(['success' => true, 'payment' => $payment]);
     }
 }

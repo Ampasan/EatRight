@@ -15,6 +15,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        $user = auth('api')->user();
+        if ($user && (isset($user->level_name) ? $user->level_name === 'admin' : (isset($user->level_id) && $user->level_id && $user->level_id == 'admin'))) {
+            return $next($request);
+        }
+        return response()->json(['message' => 'Unauthorized. Admin only.'], 403);
     }
 }

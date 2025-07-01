@@ -4,46 +4,40 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\OrderTracking;
 
 class AdminShippingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $shipping = OrderTracking::all();
+        return response()->json(['success' => true, 'shipping' => $shipping]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($orderId)
     {
-        //
+        $shipping = OrderTracking::where('order_id', $orderId)->firstOrFail();
+        return response()->json(['success' => true, 'shipping' => $shipping]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, $orderId)
     {
-        //
+        $shipping = OrderTracking::where('order_id', $orderId)->firstOrFail();
+        $shipping->update($request->only(['status', 'current_location', 'estimated_delivery']));
+        return response()->json(['success' => true, 'shipping' => $shipping]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // POST /admin/shipping/:orderId/ship
+    public function ship(Request $request, $orderId)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $shipping = OrderTracking::where('order_id', $orderId)->firstOrFail();
+        $shipping->tracking_history[] = [
+            'status' => $request->input('status'),
+            'location' => $request->input('location'),
+            'timestamp' => now(),
+            'description' => $request->input('description'),
+        ];
+        $shipping->save();
+        return response()->json(['success' => true, 'shipping' => $shipping]);
     }
 }

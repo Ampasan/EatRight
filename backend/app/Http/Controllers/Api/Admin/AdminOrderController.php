@@ -4,46 +4,33 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class AdminOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $orders = Order::query();
+        if ($request->has('order_status')) {
+            $orders->where('order_status', $request->order_status);
+        }
+        if ($request->has('user_id')) {
+            $orders->where('user_id', $request->user_id);
+        }
+        return response()->json(['success' => true, 'orders' => $orders->get()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        $order = Order::findOrFail($id);
+        return response()->json(['success' => true, 'order' => $order]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $order = Order::findOrFail($id);
+        $order->order_status = $request->input('order_status', $order->order_status);
+        $order->save();
+        return response()->json(['success' => true, 'order' => $order]);
     }
 }

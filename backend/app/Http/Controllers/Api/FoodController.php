@@ -4,46 +4,52 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Food;
+use App\Http\Requests\FoodRequest;
 
 class FoodController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $foods = Food::where('is_available', true)->get();
+        return response()->json(['success' => true, 'foods' => $foods]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        $food = Food::findOrFail($id);
+        return response()->json(['success' => true, 'food' => $food]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // GET /foods/search?name=xxx
+    public function search(Request $request)
     {
-        //
+        $query = $request->query('name');
+        $foods = Food::where('food_name', 'like', "%$query%")
+            ->where('is_available', true)
+            ->get();
+        return response()->json(['success' => true, 'foods' => $foods]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // GET /foods/category/:category
+    public function byCategory($category)
     {
-        //
+        $foods = Food::where('food_category', $category)
+            ->where('is_available', true)
+            ->get();
+        return response()->json(['success' => true, 'foods' => $foods]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // GET /foods/recommendations
+    public function recommendations(Request $request)
     {
-        //
+        // Rekomendasi makanan: terlaris, terbaru, dsb (bisa pakai query param)
+        $type = $request->query('type', 'terlaris');
+        if ($type === 'terlaris') {
+            $foods = Food::orderBy('total_sold', 'desc')->take(10)->get();
+        } else {
+            $foods = Food::orderBy('created_at', 'desc')->take(10)->get();
+        }
+        return response()->json(['success' => true, 'foods' => $foods]);
     }
 }

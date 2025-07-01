@@ -15,6 +15,9 @@ class IsUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (auth('api')->check()) {
+            return $next($request);
+        }
+        return response()->json(['message' => 'Unauthorized. User only.'], 401);
     }
 }

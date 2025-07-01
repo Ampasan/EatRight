@@ -4,46 +4,50 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Order;
+use App\Http\Requests\OrderRequest;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = auth('api')->user();
+        $orders = Order::where('user_id', $user->_id)->get();
+        return response()->json(['success' => true, 'orders' => $orders]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        //
+        $user = auth('api')->user();
+        $data = $request->validated();
+        $data['user_id'] = $user->_id;
+        $order = Order::create($data);
+        return response()->json(['success' => true, 'order' => $order], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = auth('api')->user();
+        $order = Order::where('_id', $id)->where('user_id', $user->_id)->firstOrFail();
+        return response()->json(['success' => true, 'order' => $order]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // PATCH /orders/:id/cancel
+    public function cancel($id)
     {
-        //
+        $user = auth('api')->user();
+        $order = Order::where('_id', $id)->where('user_id', $user->_id)->firstOrFail();
+        $order->order_status = 'cancelled';
+        $order->save();
+        return response()->json(['success' => true, 'order' => $order]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // GET /orders/:id/tracking
+    public function tracking($id)
     {
-        //
+        $user = auth('api')->user();
+        $order = Order::where('_id', $id)->where('user_id', $user->_id)->firstOrFail();
+        $tracking = $order->tracking ?? null;
+        return response()->json(['success' => true, 'tracking' => $tracking]);
     }
 }
