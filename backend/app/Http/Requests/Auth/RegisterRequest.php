@@ -11,7 +11,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,35 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_name' => [
+                'required',
+                'string',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z]).+$/', // harus ada huruf kecil dan kapital
+            ],
+            'user_email' => [
+                'required',
+                'string',
+                'email',
+            ],
+            'user_password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', // huruf kecil, kapital, angka
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'user_name.required' => 'Username wajib diisi.',
+            'user_name.regex' => 'Username harus mengandung huruf kecil dan huruf kapital.',
+            'user_email.required' => 'Email wajib diisi.',
+            'user_email.email' => 'Format email tidak valid.',
+            'user_password.required' => 'Password wajib diisi.',
+            'user_password.min' => 'Password minimal 8 karakter.',
+            'user_password.regex' => 'Password harus mengandung huruf kecil, huruf kapital, dan angka.',
         ];
     }
 }
