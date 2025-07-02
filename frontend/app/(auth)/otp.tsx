@@ -72,7 +72,7 @@ export default function OTP() {
 
                 <View className="flex-row justify-between items-center mb-3">
                     <CheckBox label={"Isi Otomatis"} checked={automatic} onChange={setAutomatic} />
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => setTimeLeft(120)} className="flex-row items-center">
                         <Text className="text-gray-500 dark:text-slate-400 font-medium">Kirim Ulang</Text>
                     </TouchableOpacity>
                 </View>
