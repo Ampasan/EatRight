@@ -3,8 +3,10 @@ import React from 'react'
 
 const Transaction = () => {
     return (
-        <View>
-            <Text>Transaction</Text>
+        <View className='flex-1 justify-center items-center dark:bg-gray-800'>
+            <Text className='text-3xl font-bold dark:text-white'>Transaction is</Text>
+            <Text className='text-3xl font-bold dark:text-white'>🚧 Under Construction 🚧</Text>
+            <Text className='text-2xl font-medium dark:text-white'>Stay tuned for updates 🛠️</Text>
         </View>
     )
 }

@@ -79,7 +79,7 @@ export default function OTP() {
 
                 <Text className="text-gray-400 dark:text-slate-300 mb-5">{formatTime(timeLeft)} Waktu Tersisa</Text>
 
-                <TouchableOpacity onPress={() => router.replace('/(tabs)/home')} className="bg-lime-500 py-3 rounded-full">
+                <TouchableOpacity onPress={() => router.replace('/(tabs)/homes/home')} className="bg-lime-500 py-3 rounded-full">
                     <Text className="text-center text-white font-bold text-lg">Lanjut</Text>
                 </TouchableOpacity>
             </View>
