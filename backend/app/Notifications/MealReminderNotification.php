@@ -35,9 +35,11 @@ class MealReminderNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject('Waktunya Makan Sesuai Meal Plan!')
+            ->greeting('Halo, ' . ($notifiable->name ?? 'Pengguna') . '!')
+            ->line('Jangan lupa untuk makan sesuai jadwal meal plan yang sudah kamu atur di EatRight. Tetap jaga pola makan sehatmu!')
+            ->action('Lihat Meal Plan', url('/meal-plan'))
+            ->line('Terima kasih telah menggunakan EatRight!');
     }
 
     /**

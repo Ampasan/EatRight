@@ -11,7 +11,12 @@ class AiServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(\App\Services\Ai\OpenAiService::class, function ($app) {
+            return new \App\Services\Ai\OpenAiService();
+        });
+        $this->app->singleton(\App\Services\Ai\ClarifaiService::class, function ($app) {
+            return new \App\Services\Ai\ClarifaiService();
+        });
     }
 
     /**

@@ -19,6 +19,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Tidak ada policy yang didaftarkan karena UserPolicy tidak ditemukan di project
     }
 }

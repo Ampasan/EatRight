@@ -11,7 +11,9 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(\App\Services\Payment\MidtransService::class, function ($app) {
+            return new \App\Services\Payment\MidtransService();
+        });
     }
 
     /**
