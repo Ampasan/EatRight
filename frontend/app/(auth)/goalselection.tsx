@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
 
 const goals = [
-    { label: 'Diet', emoji: '🍎' },
-    { label: 'Naikkan Massa Otot', emoji: '💪' },
-    { label: 'Kontrol Diabetes', emoji: '🩸' },
-    { label: 'Kontrol Kolestrol', emoji: '💚⚡' },
-    { label: 'Vegan', emoji: '🥦🥕' }
+    { label: 'Diet', image: require('../../assets/images/targets/diet.png') },
+    { label: 'Naikkan Massa Otot', image: require('../../assets/images/targets/muscle.png') },
+    { label: 'Kontrol Diabetes', image: require('../../assets/images/targets/diabetes.png') },
+    { label: 'Kontrol Kolestrol', image: require('../../assets/images/targets/cholesterol.png') },
+    { label: 'Vegan', image: require('../../assets/images/targets/vegan.png') }
 ];
 
 export default function GoalSelectionScreen() {
@@ -46,8 +46,11 @@ export default function GoalSelectionScreen() {
                         : 'dark:bg-gray-900 bg-white'
                     }`}
                 >
-                    <Text className="text-2xl mr-2">{goal.emoji}</Text>
-                    <Text className="flex-1 text-base dark:text-white">{goal.label}</Text>
+                    <Image
+                        source={goal.image}
+                        className={`w-10 h-10 rounded-full`}
+                    />
+                    <Text className="flex-1 text-base dark:text-white ps-4">{goal.label}</Text>
                     <View  className={`w-5 h-5 rounded-full border-2 items-center justify-center bg-white ${selectedGoal === goal.label ? 'border-lime-400' : 'border-gray-300'}`}>
                         {selectedGoal === goal.label && (
                         <Icon name="check" size={14} color="#84cc16" />

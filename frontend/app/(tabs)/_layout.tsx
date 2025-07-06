@@ -71,7 +71,7 @@ export default function TabLayout() {
                                     <Icon
                                         name="center-focus-strong"
                                         size={42}
-                                        {...(colorScheme === 'dark' ? { color: "#fff" } : { color: "#000" } )}
+                                        color={"white"}
                                     />
                                 </View>
                             </View>

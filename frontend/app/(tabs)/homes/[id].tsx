@@ -1,6 +1,6 @@
 // app/tabs/home/[id].tsx
 import React, { useState} from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, Appearance } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,6 +8,7 @@ import NutritionTag from '@/components/home/NutritionTag';
 import ReadMore from '@fawazahmed/react-native-read-more';
 
 export default function ProductDetail() {
+    const colorScheme = Appearance.getColorScheme();
     const insets = useSafeAreaInsets();
     const { id } = useLocalSearchParams();
     const router = useRouter();
@@ -95,7 +96,7 @@ export default function ProductDetail() {
     return (
         <View className='flex-1 justify-between'>
             <ScrollView
-                className="flex-1 bg-gray-50 px-5 pt-4"
+                className="flex-1 bg-gray-50 dark:bg-gray-800 px-5 pt-4"
                 contentContainerStyle={{ paddingTop: insets.top }}
             >
                 <View className="flex-row justify-between items-center mb-4">
@@ -109,9 +110,9 @@ export default function ProductDetail() {
 
                 <Image source={data.image} className="w-48 h-48 self-center mb-4" resizeMode="contain" />
 
-                <View className="bg-white border border-lime-500 rounded-t-[4rem] p-12 mx-[-2rem]">
+                <View className="bg-white dark:bg-gray-900 border border-lime-500 rounded-t-[4rem] p-12 mx-[-2rem]">
                     <View className="flex-row justify-between items-center">
-                        <Text className="text-2xl w-[50vw] font-bold">{data.name}</Text>
+                        <Text className="text-2xl font-bold dark:text-white w-[50vw]">{data.name}</Text>
                         <TouchableOpacity
                             className="bg-lime-500 rounded-full p-2"
                             onPress={() => updateFavorite(Array.isArray(id) ? id[0] : id, !data.fav)}
@@ -119,7 +120,7 @@ export default function ProductDetail() {
                             <MaterialIcons name={data.fav ? "favorite" : "favorite-border"} size={20} color="#fff" />
                         </TouchableOpacity>
                     </View>
-                    <Text className="text-xl mt-3 font-semibold text-gray-700">Rp {data.price.toLocaleString('id-ID')}</Text>
+                    <Text className="text-xl mt-3 font-semibold text-gray-700 dark:text-gray-400">Rp {data.price.toLocaleString('id-ID')}</Text>
 
                     <View className="flex-row mt-4">
                         <NutritionTag className={'mr-2'} label="Karbohidrat" value={data.carbs} />
@@ -128,40 +129,41 @@ export default function ProductDetail() {
                     </View>
 
                     <View className="flex flex-row justify-between items-center pt-4 pb-2 border-b border-lime-500">
-                        <Text className="text-lg font-bold">Total Kalori</Text>
-                        <Text className="text-2xl font-bold">{data.calories} <Text className="text-sm font-normal">Kcal</Text></Text>
+                        <Text className="text-lg font-bold dark:text-white">Total Kalori</Text>
+                        <Text className="text-2xl font-bold dark:text-white">{data.calories} <Text className="text-sm font-normal">Kcal</Text></Text>
                     </View>
 
                     <View className="mt-4">
-                        <Text className="text-lg font-semibold mb-3">Deskripsi</Text>
+                        <Text className="text-lg font-semibold mb-3 dark:text-white">Deskripsi</Text>
                         <ReadMore
-                            seeMoreStyle={{ color: "#000", fontWeight: 600 }}
+                            seeMoreStyle={{ color: colorScheme === 'dark' ? "#fff" : "#000", fontWeight: 600 }}
                             seeMoreText='Selengkapnya'
-                            seeLessStyle={{ color: "#000", fontWeight: 600 }}
+                            seeLessStyle={{ color: colorScheme === 'dark' ? "#fff" : "#000", fontWeight: 600 }}
                             seeLessText='Sekurangnya'
+                            style={{ color: colorScheme === 'dark' ? "#fff" : "#000" }}
                         >
                             {data.description}
                         </ReadMore>
                     </View>
 
                     <View className="mt-4">
-                        <Text className="text-lg font-semibold mb-1">Review</Text>
+                        <Text className="text-lg font-semibold dark:text-white mb-1">Review</Text>
                         <View className="flex-row items-center">
                             <Image
                                 source={require('../../../assets/images/users/albert.png')}
                                 className="w-20 h-20 border border-lime-500 rounded-full mr-2"
                             />
                             <View className='flex-col justify-between'>
-                                <Text className="text-gray-700">{data.reviewer}</Text>
+                                <Text className="text-gray-700 dark:text-gray-400">{data.reviewer}</Text>
                                 <Text className="text-sm text-lime-500">★★★★★</Text>
-                                <Text className="text-xs text-gray-700 w-[65vw]">Mantap Salmonnya gede, rasanya enak gak amis, ngeyangangin banget, terima kasih</Text>
+                                <Text className="text-xs text-gray-700 dark:text-gray-400 w-[65vw]">Mantap Salmonnya gede, rasanya enak gak amis, ngeyangangin banget, terima kasih</Text>
                             </View>
                         </View>
                     </View>
                 </View>
             </ScrollView>
 
-            <View className="px-4 py-3 h-[10vh] bg-white border-t-2 border-lime-500 flex-row justify-evenly items-center">
+            <View className="px-4 py-3 h-[10vh] bg-white dark:bg-gray-900 border-t-2 border-lime-500 flex-row justify-evenly items-center">
                     <View className="flex-row items-center rounded-3xl bg-lime-500 p-1">
                         <TouchableOpacity onPress={() => decrementCounter(Array.isArray(id) ? id[0] : id, data.count)}>
                             <MaterialIcons name="remove-circle" size={24} color="#fff" />

@@ -58,7 +58,7 @@ export default function ProfileInfoScreen() {
 
         <Text className="text-sm font-medium dark:text-white mb-2">Jenis Kelamin</Text>
         <View className="flex-row gap-3 mb-4">
-          {['Pria', 'Wanita', 'Lainnya'].map((item) => (
+          {['Pria', 'Wanita'].map((item) => (
             <TouchableOpacity
               key={item}
               className={`flex-row items-center justify-between flex-1 px-4 py-3 rounded-xl shadow-sm ${
@@ -67,7 +67,7 @@ export default function ProfileInfoScreen() {
               onPress={() => setGender(item)}
             >
               <Text className="text-sm dark:text-white">
-                {item === 'Pria' ? '👦' : item === 'Wanita' ? '👧' : '🌈'} {item}
+                {item === 'Pria' ? '👦' : '👧'} {item}
               </Text>
               <View className={`w-5 h-5 rounded-full border-2 items-center justify-center bg-white ${gender === item ? 'border-lime-400' : 'border-gray-300'}`}>
                 {gender === item && (
