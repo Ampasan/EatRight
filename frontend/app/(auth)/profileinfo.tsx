@@ -1,29 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Appearance } from 'react-native';
-import Icon from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
+import Button from '@/components/Button';
 
 export default function ProfileInfoScreen() {
   const colorScheme = Appearance.getColorScheme();
-
-  const [name, setName] = useState('');
-  const [gender, setGender] = useState('Pria');
-  const [day, setDay] = useState(19);
-  const [month, setMonth] = useState('Desember');
-  const [year, setYear] = useState(2005);
-  const [weight, setWeight] = useState('');
-  const [height, setHeight] = useState('');
+  const currentDate = new Date();
 
   const months = [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
 
+  const [name, setName] = useState('');
+  const [gender, setGender] = useState('');
+  const [day, setDay] = useState(currentDate.getDate());
+  const [month, setMonth] = useState(months[currentDate.getMonth()]);
+  const [year, setYear] = useState(currentDate.getFullYear());
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [checkValue, setCheckValue] = useState(false);
+
+  useEffect(() => {
+      if (name && gender && day && month && year && weight && height) {
+          setCheckValue(true);
+      } else {
+          setCheckValue(false);
+      }
+  }, [name, gender, day, month, year, weight, height]);
+
   const changeMonth = (direction: number) => {
     const currentIndex = months.indexOf(month);
     const newIndex = (currentIndex + direction + 12) % 12;
     setMonth(months[newIndex]);
   };
+
+  const handleTextChange = (text: string, setter: (arg0: string) => void) => {
+    const numericValue = parseInt(text.replace(/[^0-9]/g, ''), 10);
+    setter(isNaN(numericValue) ? '' : String(numericValue));
+  };
+
 
   return (
     <View className="flex-1 bg-white dark:bg-gray-800 px-5 pt-14">
@@ -33,13 +50,13 @@ export default function ProfileInfoScreen() {
               className="w-10 h-10 items-center justify-center"
               onPress={() => router.back()}
           >
-              <Icon name="arrow-back" size={24} color="#84cc16" />
+              <MaterialIcons name="arrow-back" size={24} color="#84cc16" />
           </TouchableOpacity>
 
           <View className="flex-row space-x-2">
-            <View className="w-2 h-2 mx-1 rounded-full bg-lime-500" />
-            <View className="w-2 h-2 mx-1 rounded-full bg-lime-500" />
-            <View className="w-2 h-2 mx-1 rounded-full bg-gray-300" />
+            <View className="w-3 h-3 mx-1 rounded-full bg-lime-500" />
+            <View className="w-3 h-3 mx-1 rounded-full bg-lime-500" />
+            <View className="w-3 h-3 mx-1 rounded-full border border-lime-500" />
           </View>
 
           <View className="w-10 h-10" />
@@ -53,7 +70,7 @@ export default function ProfileInfoScreen() {
           placeholderTextColor={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'}
           value={name}
           onChangeText={setName}
-          className="border border-lime-400 rounded-xl px-4 py-2 mb-4"
+          className="border dark:text-white border-lime-400 rounded-xl px-4 py-2 mb-4"
         />
 
         <Text className="text-sm font-medium dark:text-white mb-2">Jenis Kelamin</Text>
@@ -71,7 +88,7 @@ export default function ProfileInfoScreen() {
               </Text>
               <View className={`w-5 h-5 rounded-full border-2 items-center justify-center bg-white ${gender === item ? 'border-lime-400' : 'border-gray-300'}`}>
                 {gender === item && (
-                  <Icon name="check" size={14} color="#84cc16" />
+                  <View className="w-3 h-3 bg-lime-400 overflow-hidden rounded-full items-center justify-center" />
                 )}
               </View>
             </TouchableOpacity>
@@ -82,38 +99,34 @@ export default function ProfileInfoScreen() {
         <View className="flex-row justify-around items-center mb-2">
           <View className="items-center">
             <TouchableOpacity onPress={() => setDay((d) => (d < 31 ? d + 1 : 1))}>
-              <Icon name="keyboard-arrow-up" size={24} color="#84cc16" />
+              <MaterialIcons name="keyboard-arrow-up" size={24} color="#84cc16" />
             </TouchableOpacity>
             <Text className="text-base font-bold dark:text-white">{day}</Text>
             <TouchableOpacity onPress={() => setDay((d) => (d > 1 ? d - 1 : 31))}>
-              <Icon name="keyboard-arrow-down" size={24} color="#84cc16" />
+              <MaterialIcons name="keyboard-arrow-down" size={24} color="#84cc16" />
             </TouchableOpacity>
           </View>
 
           <View className="items-center">
             <TouchableOpacity onPress={() => changeMonth(1)}>
-              <Icon name="keyboard-arrow-up" size={24} color="#84cc16" />
+              <MaterialIcons name="keyboard-arrow-up" size={24} color="#84cc16" />
             </TouchableOpacity>
             <Text className="text-base font-bold dark:text-white">{month}</Text>
             <TouchableOpacity onPress={() => changeMonth(-1)}>
-              <Icon name="keyboard-arrow-down" size={24} color="#84cc16" />
+              <MaterialIcons name="keyboard-arrow-down" size={24} color="#84cc16" />
             </TouchableOpacity>
           </View>
 
           <View className="items-center">
             <TouchableOpacity onPress={() => setYear((y) => y + 1)}>
-              <Icon name="keyboard-arrow-up" size={24} color="#84cc16" />
+              <MaterialIcons name="keyboard-arrow-up" size={24} color="#84cc16" />
             </TouchableOpacity>
             <Text className="text-base font-bold dark:text-white">{year}</Text>
             <TouchableOpacity onPress={() => setYear((y) => y - 1)}>
-              <Icon name="keyboard-arrow-down" size={24} color="#84cc16" />
+              <MaterialIcons name="keyboard-arrow-down" size={24} color="#84cc16" />
             </TouchableOpacity>
           </View>
         </View>
-
-        <TouchableOpacity className="self-end bg-lime-500 rounded px-3 py-1 mb-4">
-          <Text className="text-white font-semibold text-sm">Ok</Text>
-        </TouchableOpacity>
 
         <Text className="text-sm font-medium dark:text-white mb-2">Berat Badan</Text>
         <View className="flex-row items-center border border-lime-400 rounded-xl px-4 mb-4">
@@ -122,10 +135,10 @@ export default function ProfileInfoScreen() {
             placeholderTextColor={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'}
             keyboardType="numeric"
             value={weight}
-            onChangeText={setWeight}
-            className="flex-1"
+            onChangeText={(text) => handleTextChange(text, setWeight)}
+            className="flex-1 dark:text-white"
           />
-          <Text className="text-sm text-gray-500">Kg</Text>
+          <Text className="text-sm font-semibold text-lime-500">Kg</Text>
         </View>
 
         <Text className="text-sm font-medium dark:text-white mb-2">Tinggi Badan</Text>
@@ -135,10 +148,10 @@ export default function ProfileInfoScreen() {
             placeholderTextColor={colorScheme === 'dark' ? '#9ca3af' : '#6b7280'}
             keyboardType="numeric"
             value={height}
-            onChangeText={setHeight}
+            onChangeText={(text) => handleTextChange(text, setHeight)}
             className="flex-1 dark:text-white"
           />
-          <Text className="text-sm text-gray-500">Cm</Text>
+          <Text className="text-sm font-semibold text-lime-500">Cm</Text>
         </View>
 
       </ScrollView>
@@ -147,9 +160,13 @@ export default function ProfileInfoScreen() {
         Informasi digunakan untuk menyesuaikan kebutuhan anda
       </Text>
 
-      <TouchableOpacity onPress={() => router.push('/allergyoption')} className="bg-lime-500 rounded-full py-3 items-center mb-6">
-        <Text className="text-white font-bold text-base">Lanjut</Text>
-      </TouchableOpacity>
+      <Button
+          disabled={!checkValue}
+          onPress={() => router.push('/allergyoption')}
+          className={checkValue ? 'mb-6' : 'opacity-50 mb-6'}
+      >
+          Lanjut
+      </Button>
     </View>
   );
 }

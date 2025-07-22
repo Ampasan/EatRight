@@ -1,10 +1,10 @@
-// File: app/(auth)/otp.jsx
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { useRouter } from 'expo-router';
-import Icon from '@expo/vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CheckBox from '@/components/CheckBox';
+import Button from '@/components/Button';
 
 export default function OTP() {
     const insets = useSafeAreaInsets();
@@ -13,6 +13,24 @@ export default function OTP() {
     const inputs = useRef<Array<TextInput | null>>([]);
     const [automatic, setAutomatic] = useState(false);
     const [timeLeft, setTimeLeft] = useState(120);
+    const [checkValue, setCheckValue] = useState(false);
+
+    useEffect(() => {
+        if (otp.every(digit => digit !== '')) {
+            setCheckValue(true);
+        } else {
+            setCheckValue(false);
+        }
+    }, [otp]);
+
+    useEffect(() => {
+        const firstEmptyIndex = otp.findIndex(val => val === '');
+        if (firstEmptyIndex !== -1 && otp.every((d, i) => i >= firstEmptyIndex || d !== '')) {
+            setTimeout(() => {
+                inputs.current[firstEmptyIndex]?.focus();
+            }, 100);
+        }
+    }, [otp]);
 
     const handleChange = (text: string, index: number) => {
         const newOtp = [...otp];
@@ -43,7 +61,7 @@ export default function OTP() {
     return (
         <View style={{ paddingTop: insets.top }} className="flex-1 justify-between dark:bg-gray-800 bg-slate-100 p-5">
             <TouchableOpacity onPress={() => router.back()} className="mt-5">
-                <Icon name="arrow-back" size={24} color="#7ED957" />
+                <MaterialIcons name="arrow-back" size={24} color="#7ED957" />
             </TouchableOpacity>
 
             <View className="dark:bg-gray-900 bg-white border border-lime-500 rounded-[30px] p-6">
@@ -65,7 +83,7 @@ export default function OTP() {
                             }}
                             keyboardType="number-pad"
                             maxLength={1}
-                            className="border border-lime-500 w-12 h-12 text-center rounded-md text-lg"
+                            className="border border-lime-500 dark:text-white w-12 h-12 text-center rounded-md text-lg"
                         />
                     ))}
                 </View>
@@ -79,9 +97,16 @@ export default function OTP() {
 
                 <Text className="text-gray-400 dark:text-slate-300 mb-5">{formatTime(timeLeft)} Waktu Tersisa</Text>
 
-                <TouchableOpacity onPress={() => router.replace('/(tabs)/homes/home')} className="bg-lime-500 py-3 rounded-full">
-                    <Text className="text-center text-white font-bold text-lg">Lanjut</Text>
-                </TouchableOpacity>
+                <Button
+                    disabled={!checkValue}
+                    onPress={() => {
+                        Keyboard.dismiss()
+                        router.push('/(tabs)/homes/home')
+                    }}
+                    className={checkValue ? '' : 'opacity-50'}
+                >
+                    Masuk
+                </Button>
             </View>
 
             <View className="w-10 h-10" />

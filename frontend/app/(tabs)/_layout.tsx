@@ -1,14 +1,13 @@
 // File: app/(tabs)/_layout.jsx
 import { Tabs, useSegments } from 'expo-router';
 import Icon from '@expo/vector-icons/MaterialIcons';
-import { View, Text, useColorScheme } from 'react-native';
+import { View, Text } from 'react-native';
 import { StyledTabs } from '@/components/navigation/tabs';
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
     const segment = useSegments();
     const page = segment[segment.length - 1];
-    const pagesToHideTabBar = ['[id]', 'chatbots', 'chatbot', 'camera'];
+    const pagesToHideTabBar = ['[id]', 'chatbots', 'chatbot', 'introduction', 'camera'];
 
     return (
         <StyledTabs
@@ -64,7 +63,7 @@ export default function TabLayout() {
                 name="chatbots"
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({ color, focused }) => (
+                    tabBarIcon: () => (
                         <View className="items-center justify-center w-[20%] pb-8">
                             <View className='h-20 w-20 border-2 border-lime-500 bg-white overflow-hidden rounded-full items-center justify-center'>
                                 <View className='p-2 bg-lime-500 overflow-hidden rounded-full items-center justify-center'>

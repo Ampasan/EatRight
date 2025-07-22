@@ -19,6 +19,12 @@ export default function MingguanSection() {
       color: (opacity = 1) => `rgba(132, 204, 22, ${opacity})`,
       labelColor: () => '#fff',
       barPercentage: 0.4,
+      fillShadowGradient: '#84cc16',
+      fillShadowGradientOpacity: 1,
+      propsForBackgroundLines: {
+        strokeWidth: 0,
+        stroke: '#374151',
+      },
     };
   } else {
     chartConfig = {
@@ -28,6 +34,12 @@ export default function MingguanSection() {
       color: (opacity = 1) => `rgba(132, 204, 22, ${opacity})`,
       labelColor: () => '#000',
       barPercentage: 0.4,
+      fillShadowGradient: '#84cc16',
+      fillShadowGradientOpacity: 1,
+      propsForBackgroundLines: {
+        strokeWidth: 0,
+        stroke: '#374151',
+      },
     };
   }
 
