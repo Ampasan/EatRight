@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import Button from '../../components/Button';
 import { router } from 'expo-router';
+import Button from '@/components/Button';
 
 export default function Index() {
   return (
     <>
       <Image
-        source={require('../../assets/images/landing.png')}
+        source={require('@/assets/images/landing.png')}
         className='w-full h-[55%] rounded-t-2xl'
         resizeMode="cover"
       />
@@ -31,12 +31,12 @@ export default function Index() {
 
         <View className='flex-row mt-12 mb-2 items-center justify-center'>
           <Text className='text-sm dark:text-slate-400 text-gray-600'>Sudah Memiliki Akun EatRight?</Text>
-          <TouchableOpacity onPress={() => router.push('/signin')} className='ml-1'>
+          <TouchableOpacity onPress={() => router.push('./signin')} className='ml-1'>
             <Text className='text-sm font-bold text-lime-500'> Login Here!</Text>
           </TouchableOpacity>
         </View>
 
-        <Button onPress={() => router.push('/goalselection')}>
+        <Button onPress={() => router.push('/(auth)/goalselection')} className={undefined}>
           Mulai
         </Button>
       </View>

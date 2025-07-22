@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import TextInput from '../../components/TextInput';
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-import CheckBox from '../../components/CheckBox';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import TextInput from '@/components/UnderlineTextInput';
+import Button from '@/components/Button';
+import Card from '@/components/Card';
+import CheckBox from '@/components/CheckBox';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import AltLoginTray from '@/components/AltLoginTray';
 
 const Signup = () => {
   const insets = useSafeAreaInsets();
@@ -15,6 +16,15 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [checkValue, setCheckValue] = useState(false);
+
+  useEffect(() => {
+    if (name && email && password && isChecked) {
+      setCheckValue(true);
+    } else {
+      setCheckValue(false);
+    }
+  }, [name, email, password, isChecked]);
 
   return (
     <View style={{ paddingTop: insets.top }} className="flex-1 justify-between dark:bg-gray-800 bg-slate-100 p-5">
@@ -55,7 +65,11 @@ const Signup = () => {
           onChange={setIsChecked}
         />
 
-        <Button onPress={() => router.push('/otp')}>
+        <Button
+          disabled={!checkValue}
+          onPress={() => router.push('/otp')}
+          className={checkValue ? '' : 'opacity-50'}
+        >
           Masuk
         </Button>
 
@@ -71,23 +85,7 @@ const Signup = () => {
           <Text className="dark:text-slate-300 text-gray-600 font-semibold">Masuk dengan</Text>
         </View>
 
-        <TouchableOpacity className="flex flex-row justify-center">
-          <Image
-            source={require('../../assets/images/social/google.png')}
-            className='w-10 h-10 mx-2'
-            resizeMode="cover"
-          />
-          <Image
-            source={require('../../assets/images/social/twitter.png')}
-            className='w-9 h-9 mx-2'
-            resizeMode="cover"
-          />
-          <Image
-            source={require('../../assets/images/social/facebook.png')}
-            className='w-10 h-10 mx-2'
-            resizeMode="cover"
-          />
-        </TouchableOpacity>
+        <AltLoginTray />
       </Card>
 
       <View className="w-10 h-10" />

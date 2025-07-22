@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
+import Button from '@/components/Button';
 
 const allergyOptions = [
     { label: 'Telur', emoji: '🥚' },
@@ -9,11 +10,21 @@ const allergyOptions = [
     { label: 'Seafood', emoji: '🦐' },
     { label: 'Laktosa', emoji: '🥛' },
     { label: 'Kedelai', emoji: '🍇' },
-    { label: 'Ikan', emoji: '🐟' }
+    { label: 'Ikan', emoji: '🐟' },
+    { label: 'Tidak Ada', emoji: '❌' }
 ];
 
 export default function AllergySelectionScreen() {
     const [selectedAllergies, setSelectedAllergies] = useState<string[]>([]);
+    const [checkValue, setCheckValue] = useState(false);
+
+    useEffect(() => {
+        if (selectedAllergies.length > 0) {
+            setCheckValue(true);
+        } else {
+            setCheckValue(false);
+        }
+    }, [selectedAllergies]);
 
     const toggleAllergy = (item: string) => {
         setSelectedAllergies((prev) =>
@@ -21,6 +32,12 @@ export default function AllergySelectionScreen() {
             ? prev.filter((i) => i !== item)
             : [...prev, item]
         );
+
+        if (selectedAllergies.includes('Tidak Ada')) {
+            setSelectedAllergies((prev) => prev.filter((i) => i !== 'Tidak Ada'));
+        } else if (item === 'Tidak Ada') {
+            setSelectedAllergies(['Tidak Ada']);
+        }
     };
 
     return (
@@ -35,9 +52,9 @@ export default function AllergySelectionScreen() {
                     </TouchableOpacity>
 
                     <View className="flex-row space-x-2">
-                        <View className="w-2 h-2 mx-1 rounded-full bg-lime-500" />
-                        <View className="w-2 h-2 mx-1 rounded-full bg-lime-500" />
-                        <View className="w-2 h-2 mx-1 rounded-full bg-lime-500" />
+                        <View className="w-3 h-3 mx-1 rounded-full bg-lime-500" />
+                        <View className="w-3 h-3 mx-1 rounded-full bg-lime-500" />
+                        <View className="w-3 h-3 mx-1 rounded-full bg-lime-500" />
                     </View>
 
                     <View className="w-10 h-10" />
@@ -47,23 +64,23 @@ export default function AllergySelectionScreen() {
 
                 <View className="flex-row flex-wrap justify-between">
                     {allergyOptions.map((item) => {
-                    const selected = selectedAllergies.includes(item.label);
-                    return (
-                        <TouchableOpacity
-                        key={item.label}
-                        onPress={() => toggleAllergy(item.label)}
-                        className={`w-[48%] flex-row items-center justify-between px-4 py-3 mb-4 rounded-xl shadow-sm ${
-                            selected ? 'bg-lime-50 border border-lime-400 dark:bg-gray-800' : 'dark:bg-gray-900 bg-white'
-                        }`}
-                        >
-                        <Text className="text-base dark:text-white">{item.emoji} {item.label}</Text>
-                        <View className={`w-5 h-5 rounded-full border-2 items-center justify-center bg-white ${selected ? 'border-lime-400' : 'border-gray-300'}`}>
-                            {selected && (
-                                <Icon name="check" size={14} color="#84cc16" />
-                            )}
-                        </View>
-                        </TouchableOpacity>
-                    );
+                        const selected = selectedAllergies.includes(item.label);
+                        return (
+                            <TouchableOpacity
+                                key={item.label}
+                                onPress={() => toggleAllergy(item.label)}
+                                className={`${item.label === "Tidak Ada" ? "w-full" : "w-[48%]"} flex-row items-center justify-between px-4 py-3 mb-4 rounded-xl shadow-sm ${
+                                    selected ? 'bg-lime-50 border border-lime-400 dark:bg-gray-800' : 'dark:bg-gray-900 bg-white'
+                                }`}
+                            >
+                                <Text className="text-base dark:text-white">{item.emoji} {item.label}</Text>
+                                <View className={`w-5 h-5 rounded-full border-2 items-center justify-center bg-white ${selected ? 'border-lime-400' : 'border-gray-300'}`}>
+                                    {selected && (
+                                        <View className="w-3 h-3 bg-lime-400 overflow-hidden rounded-full items-center justify-center" />
+                                    )}
+                                </View>
+                            </TouchableOpacity>
+                        );
                     })}
                 </View>
             </View>
@@ -72,9 +89,13 @@ export default function AllergySelectionScreen() {
                 Informasi digunakan untuk menyesuaikan kebutuhan anda
             </Text>
 
-            <TouchableOpacity onPress={() => router.push('/(auth)/signup')} className="bg-lime-500 rounded-full py-3 items-center mb-6">
-                <Text className="text-white font-bold text-base">Lanjut</Text>
-            </TouchableOpacity>
+            <Button
+                disabled={!checkValue}
+                onPress={() => router.push('/(auth)/signup')}
+                className={checkValue ? 'mb-6' : 'opacity-50 mb-6'}
+            >
+                Lanjut
+            </Button>
         </View>
     );
 }
