@@ -22,6 +22,10 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'level_id' => [
+                'required',
+                'integer'
+            ],
             'user_name' => [
                 'required',
                 'string',
@@ -36,6 +40,33 @@ class RegisterRequest extends FormRequest
                 'string',
                 'min:8',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', // huruf kecil, kapital, angka
+            ],
+            'intro_name' => [
+                'nullable',
+                'string',
+            ],
+            'gender' => [
+                'nullable',
+                'string',
+            ],
+            'birth_date' => [
+                'nullable',
+                'date',
+            ],
+            'height' => [
+                'nullable',
+                'numeric',
+            ],
+            'weight' => [
+                'nullable',
+                'numeric',
+            ],
+            'user_goal' => [
+                'nullable',
+                'string',
+            ],
+            'allergies' => [
+                'nullable',
             ],
         ];
     }

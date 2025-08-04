@@ -60,6 +60,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject
     public function getAuthIdentifierName() { return '_id'; }
     public function getAuthIdentifier() { return $this->getKey(); }
     public function getAuthPassword() { return $this->user_password; }
+    public function getAuthPasswordName() { return 'user_password'; }
     public function getRememberToken() { return $this->remember_token ?? null; }
     public function setRememberToken($value) { $this->remember_token = $value; }
     public function getRememberTokenName() { return 'remember_token'; }
