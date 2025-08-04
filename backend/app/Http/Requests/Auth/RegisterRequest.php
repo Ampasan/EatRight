@@ -24,7 +24,7 @@ class RegisterRequest extends FormRequest
         return [
             'level_id' => [
                 'required',
-                'integer'
+                'string'
             ],
             'user_name' => [
                 'required',
