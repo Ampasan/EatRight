@@ -52,6 +52,12 @@ class User extends Model implements AuthenticatableContract, JWTSubject
         ];
     }
 
+    // Relationships
+    public function level()
+    {
+        return $this->belongsTo(UserLevel::class, 'level_id', '_id');
+    }
+
     // JWT implementation
     public function getJWTIdentifier() { return $this->getKey(); }
     public function getJWTCustomClaims() { return []; }
