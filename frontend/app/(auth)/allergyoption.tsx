@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from '@expo/vector-icons/MaterialIcons';
 import { router } from 'expo-router';
 import Button from '@/components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const allergyOptions = [
     { label: 'Telur', emoji: '🥚' },
@@ -39,6 +40,12 @@ export default function AllergySelectionScreen() {
             setSelectedAllergies(['Tidak Ada']);
         }
     };
+
+    const handleAllergySubmit = () => {
+        AsyncStorage.setItem('selectedAllergies', JSON.stringify(selectedAllergies[0] === 'Tidak Ada' ? [] : selectedAllergies));
+        console.log("Selected Allergies: ", selectedAllergies[0] === 'Tidak Ada' ? [] : selectedAllergies);
+        router.push('/(auth)/signup');
+    }
 
     return (
         <View className="flex-1 dark:bg-gray-800 bg-slate-100 px-5 pt-14">
@@ -91,7 +98,7 @@ export default function AllergySelectionScreen() {
 
             <Button
                 disabled={!checkValue}
-                onPress={() => router.push('/(auth)/signup')}
+                onPress={handleAllergySubmit}
                 className={checkValue ? 'mb-6' : 'opacity-50 mb-6'}
             >
                 Lanjut

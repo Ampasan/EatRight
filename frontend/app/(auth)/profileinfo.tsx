@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, Appearance } from 
 import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Button from '@/components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileInfoScreen() {
   const colorScheme = Appearance.getColorScheme();
@@ -41,6 +42,27 @@ export default function ProfileInfoScreen() {
     setter(isNaN(numericValue) ? '' : String(numericValue));
   };
 
+  const handleProfileInfoSubmit = () => {
+    const monthNumber = months.indexOf(month) + 1;
+    const paddedMonth = monthNumber < 10 ? `0${monthNumber}` : `${monthNumber}`;
+    const paddedDay = day < 10 ? `0${day}` : `${day}`;
+
+    AsyncStorage.setItem('userName', name);
+    AsyncStorage.setItem('userGender', gender);
+    AsyncStorage.setItem('userBirthDate', `${year}-${paddedMonth}-${paddedDay}`);
+    AsyncStorage.setItem('userWeight', weight);
+    AsyncStorage.setItem('userHeight', height);
+
+    console.log({
+      name,
+      gender,
+      birthDate: `${year}-${paddedMonth}-${paddedDay}`,
+      weight,
+      height
+    });
+
+    router.push('/allergyoption');
+  }
 
   return (
     <View className="flex-1 bg-white dark:bg-gray-800 px-5 pt-14">
@@ -162,7 +184,7 @@ export default function ProfileInfoScreen() {
 
       <Button
           disabled={!checkValue}
-          onPress={() => router.push('/allergyoption')}
+          onPress={handleProfileInfoSubmit}
           className={checkValue ? 'mb-6' : 'opacity-50 mb-6'}
       >
           Lanjut

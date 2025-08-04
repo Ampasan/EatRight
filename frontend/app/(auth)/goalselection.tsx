@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import Button from '@/components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const goals = [
     { label: 'Diet', image: require('../../assets/images/targets/diet.png') },
@@ -23,6 +24,12 @@ export default function GoalSelectionScreen() {
             setCheckValue(false);
         }
     }, [selectedGoal]);
+
+    const handleGoalSelectSubmit = () => {
+        AsyncStorage.setItem('selectedGoal', selectedGoal);
+        console.log("Selected Goal: ", selectedGoal);
+        router.push('/profileinfo');
+    };
 
     return (
         <View className="flex-1 dark:bg-gray-800 bg-slate-100 px-5 pt-14">
@@ -76,7 +83,7 @@ export default function GoalSelectionScreen() {
 
             <Button
                 disabled={!checkValue}
-                onPress={() => router.push('/profileinfo')}
+                onPress={handleGoalSelectSubmit}
                 className={checkValue ? 'mb-6' : 'opacity-50 mb-6'}
             >
                 Lanjut
